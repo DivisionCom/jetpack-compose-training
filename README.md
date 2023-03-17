@@ -1,1 +1,1 @@
-# jetpack-compose-training
+# My Jetpack Compose training repository 🎯🎯🎯

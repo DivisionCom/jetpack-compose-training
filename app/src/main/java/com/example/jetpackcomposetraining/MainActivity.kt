@@ -49,6 +49,7 @@ class MainActivity : ComponentActivity() {
                     Text(text = "Bye!", Modifier, fontSize = 30.sp, color = Color.Green)
                     Text(text = "Bye!")
                 }
+
             }
 
         }

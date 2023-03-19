@@ -18,22 +18,26 @@ import androidx.compose.ui.unit.sp
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.jetpackcomposetraining.adapters.CardModel
 import com.example.jetpackcomposetraining.ui.theme.JetpackComposeTrainingTheme
+import org.json.JSONObject
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Column(modifier = Modifier
-                .background(Color.Gray)
-                .fillMaxWidth(.5f)
-                .fillMaxHeight(),
+            Column(
+                modifier = Modifier
+                    .background(Color.Gray)
+                    .fillMaxWidth(.5f)
+                    .fillMaxHeight(),
                 verticalArrangement = Arrangement.Center
-                ) {
-                Row(modifier = Modifier
-                    .background(Color.DarkGray)
-                    .fillMaxWidth()
-                    .fillMaxHeight(.5f),
+            ) {
+                Row(
+                    modifier = Modifier
+                        .background(Color.DarkGray)
+                        .fillMaxWidth()
+                        .fillMaxHeight(.5f),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -42,10 +46,11 @@ class MainActivity : ComponentActivity() {
                     Text(text = "Hello!")
                 }
 
-                Row(modifier = Modifier
-                    .background(Color.Blue)
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
+                Row(
+                    modifier = Modifier
+                        .background(Color.Blue)
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -55,10 +60,11 @@ class MainActivity : ComponentActivity() {
                 }
 
             }
-            requestCardData("53964100")
+            requestCardData("45717360")
 
         }
     }
+
     private fun requestCardData(bin: String) {
         val url = "https://lookup.binlist.net/" +
                 bin
@@ -66,14 +72,37 @@ class MainActivity : ComponentActivity() {
         val request = StringRequest(
             Request.Method.GET,
             url,
-            {
-                    result -> Log.d("MyLog", "Result: $result")
+            { result ->
+                parseCardData(result)
             },
-            {
-                    error -> Log.d("MyLog", "Error: $error")
+            { error ->
+                Log.d("MyLog", "Error: $error")
             }
         )
         queue.add(request)
+    }
+
+    private fun parseCardData(result: String) {
+        val mainObject = JSONObject(result)
+        val item = CardModel(
+            mainObject.getJSONObject("number").getString("length"),
+            mainObject.getJSONObject("number").getString("luhn"),
+            mainObject.getString("scheme"),
+            mainObject.getString("type"),
+            mainObject.getString("brand"),
+            mainObject.getString("prepaid"),
+            mainObject.getJSONObject("country").getString("numeric"),
+            mainObject.getJSONObject("country").getString("alpha2"),
+            mainObject.getJSONObject("country").getString("name"),
+            mainObject.getJSONObject("country").getString("emoji"),
+            mainObject.getJSONObject("country").getString("currency"),
+            mainObject.getJSONObject("country").getString("latitude"),
+            mainObject.getJSONObject("country").getString("longitude"),
+            mainObject.getJSONObject("bank").getString("name"),
+            mainObject.getJSONObject("bank").getString("url"),
+            mainObject.getJSONObject("bank").getString("phone"),
+            mainObject.getJSONObject("bank").getString("city"),
+        )
     }
 
 }

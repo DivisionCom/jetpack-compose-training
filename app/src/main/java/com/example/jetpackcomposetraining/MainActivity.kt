@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -13,7 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
@@ -60,7 +64,7 @@ class MainActivity : ComponentActivity() {
                 }
 
             }
-            requestCardData("22284000")
+            requestCardData("45717360")
 
         }
     }
@@ -103,6 +107,32 @@ class MainActivity : ComponentActivity() {
             getCardData(mainObject, "bank", "phone", true),
             getCardData(mainObject, "bank", "city", true),
         )
+
+        setContent {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .border(BorderStroke(1.dp, Color.Green)),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .border(BorderStroke(1.dp, Color.Red)),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(text = "Bank: ${item.bankName}", fontSize = 18.sp)
+                    Text(text = "City: ${item.bankCity}", fontSize = 18.sp)
+                    Text(text = "County: ${item.countryName}", fontSize = 18.sp)
+                    Text(text = "Scheme: ${item.scheme}", fontSize = 18.sp)
+                    Text(text = "Type: ${item.type}", fontSize = 18.sp)
+                    Text(text = "Brand: ${item.brand}", fontSize = 18.sp)
+                    Text(text = "Currency: ${item.countryCurrency}", fontSize = 18.sp)
+                    Text(text = "Url: ${item.bankUrl}", fontSize = 18.sp)
+                }
+            }
+        }
 
     }
 
